@@ -13,7 +13,7 @@ const connectDB = require("./config/db");
 // load config
 dotenv.config({ path: "./config/config.env" });
 
-// passport config
+// configure passport
 require("./config/passport")(passport);
 
 // connect to mongoDB
@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === "development") {
 app.engine(
   ".hbs",
   exphbs({
-    defaultLayout: "main",
+    defaultLayout: false,
     extname: ".hbs",
   })
 );
