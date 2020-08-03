@@ -2,6 +2,7 @@
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const exphbs = require("express-handlebars");
@@ -38,6 +39,8 @@ app.engine(
 app.set("view engine", ".hbs");
 
 // sessions (also store in mongoDB)
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "setosiafjoei233ju029",

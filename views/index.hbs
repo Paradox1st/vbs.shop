@@ -8,10 +8,10 @@
 </head>
 
 <body>
-  <h1>Welcome</h1>
+  <h1>Welcome {{dispName}}</h1>
   <ul>
     <li><a href="/">Home</a></li>
-    {{#if user}}
+    {{#if dispName}}
     <li><a href="/profile">Profile</a></li>
     <li><a href="/logout">Log Out</a></li>
     {{else}}
