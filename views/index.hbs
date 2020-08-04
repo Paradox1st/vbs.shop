@@ -18,6 +18,14 @@
     <li><a href="/login">Log In</a></li>
     {{/if}}
   </ul>
+  <div class="items">
+    {{#each items}}
+    <div class="item">
+      <p>{{this.prod_name}}</p>
+      <p>{{this.price}}</p>
+    </div>
+    {{/each}}
+  </div>
 </body>
 
 </html>
