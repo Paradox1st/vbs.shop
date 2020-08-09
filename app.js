@@ -60,6 +60,7 @@ app.use(express.static(path.join(__dirname, "static")));
 app.use("/", require("./routes/index"));
 app.use("/cart", require("./routes/cart"));
 app.use("/auth", require("./routes/auth"));
+app.use("/mod", require("./routes/mod"));
 
 // configure port
 const PORT = process.env.PORT || 5000;

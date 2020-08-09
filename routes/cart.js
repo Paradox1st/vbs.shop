@@ -21,8 +21,10 @@ router.get("/", connLogin.ensureLoggedIn(), async (req, res) => {
   cart.items_in_cart = quantity;
   cart.subTotal = subTotal;
 
+  console.log(cart);
+
   // send object
-  res.send(cart);
+  res.render("user/cart", { user: cart.user, cart: cart });
 });
 
 // add to cart method

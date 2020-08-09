@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
     user = user.toJSON();
   }
   // spotlight items (most expensive 3)
-  let spotlight = await Item.find().sort({ price: "asc" }).lean();
+  let spotlight = await Item.find().sort({ price: "asc" }).limit(3).lean();
 
   // get items
   let items = await Item.find().lean();

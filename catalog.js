@@ -2,6 +2,10 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const Item = require("./models/item");
+const fs = require("fs");
+const path = require("path");
+const csv = require("fast-csv");
+const glob = require("glob");
 
 // load config
 dotenv.config({ path: "./config/config.env" });
@@ -17,22 +21,69 @@ const connectDB = async () => {
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
 
-    // create sample items
-    const nintendoSwitch = new Item({
-      name: "Nintendo Switch Lite",
-      opts: ["black", "white", "blue", "red"],
-      price: 1000,
-    });
+    // list to hold all created items
+    var items = [];
 
-    const boringBook = new Item({
-      name: "Boring Book",
-      price: 10,
-    });
+    // read from csv
+    fs.createReadStream(
+      path.resolve(
+        __dirname,
+        "static",
+        "images",
+        "Amazing Savings",
+        "2020 Talent Final.csv"
+      )
+    )
+      .pipe(csv.parse({ headers: true }))
+      // for every data entry
+      .on("data", (row) => {
+        // image name
+        let imgName = row.name
+          .substr(
+            0,
+            row.name.indexOf("(") >= 0 ? row.name.indexOf("(") : row.name.length
+          )
+          .trim();
 
-    await nintendoSwitch.save();
-    await boringBook.save();
+        // search image folder with imgName
+        let imgPaths = glob
+          .sync(
+            path.join(
+              __dirname,
+              "static",
+              "images",
+              "Amazing Savings",
+              imgName
+            ) + "*"
+          )
+          // trim to make relative to static dir
+          .map((imgPath) => imgPath.substr(imgPath.indexOf("images")));
 
-    conn.connection.close();
+        // get item options
+        row.opts = row.opts ? row.opts.split(",").map((opt) => opt.trim()) : [];
+
+        // build new document
+        let newItem = new Item({
+          name: row.name,
+          opts: row.opts,
+          price: parseInt(row.talent),
+          imgs: imgPaths,
+        });
+
+        // add to list of items
+        items.push(newItem);
+      })
+      .on("end", async (rowCount) => {
+        // add all items to database
+        await Item.create(items, (err, docs) => {
+          if (err) console.error(err);
+
+          console.log(items.length + " items added");
+
+          // disconnect from database
+          conn.disconnect();
+        });
+      });
   } catch (err) {
     console.error(err);
     process.exit(1);

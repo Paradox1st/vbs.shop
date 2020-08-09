@@ -1,0 +1,17 @@
+{{#if cart.content}}
+{{#each cart.content}}
+<div class="card">
+  {{#with this.product}}
+  <div class="card-image">
+    <img src="{{imgs.[0]}}" alt="{{imgs.[0]}}" />
+  </div>
+  <div class="card-body">
+    <h4>{{ name }}</h4>
+    {{> _item_opts}}
+  </div>
+  {{/with}}
+</div>
+{{/each}}
+{{else}}
+<h3 class="text-center mt-5">Your cart is empty</h3>
+{{/if}}
