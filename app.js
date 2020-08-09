@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const exphbs = require("express-handlebars");
+const paginate = require("express-paginate");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -27,15 +28,19 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// pagination middleware
+app.use(paginate.middleware(12, 24));
+
 // handlebars use .hbs extension
-app.engine(
-  ".hbs",
-  exphbs({
-    defaultLayout: "main",
-    extname: ".hbs",
-  })
-);
+let hbs = exphbs.create({
+  defaultLayout: "main",
+  extname: ".hbs",
+});
+app.engine(".hbs", hbs.engine);
 app.set("view engine", ".hbs");
+// load helper functions
+const { compare } = require("./middleware/handlebars");
+hbs.handlebars.registerHelper("compare", compare);
 
 // sessions (also store in mongoDB)
 app.use(express.json());

@@ -15,9 +15,11 @@ const CartSchema = new mongoose.Schema({
       opt: String,
     },
   ],
+  cartCount: { type: Number, default: 0 },
 });
 
 CartSchema.methods.addItem = async function (addItem, opt) {
+  console.log(addItem, opt);
   // look for item already in cart
   let entry = this.content.find(
     (item) => item.product.equals(addItem._id) && item.opt == opt
@@ -34,19 +36,10 @@ CartSchema.methods.addItem = async function (addItem, opt) {
   // increase count of entry
   entry.count++;
 
+  // increase total cart count
+  this.cartCount++;
+
   await this.save();
-};
-
-CartSchema.methods.totalCount = function () {
-  let totalCount = 0;
-
-  // add up all counts
-  this.content.forEach((item) => {
-    totalCount += item.count;
-  });
-
-  // return total count
-  return totalCount;
 };
 
 CartSchema.methods.totalPrice = async function () {

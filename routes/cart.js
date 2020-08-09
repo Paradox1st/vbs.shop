@@ -8,23 +8,35 @@ const Cart = require("../models/cart");
 router.get("/", connLogin.ensureLoggedIn(), async (req, res) => {
   // get cart and populate all values
   let cart = await Cart.findOne({ user: req.user._id })
-    .populate("user")
     .populate("content.product")
     .exec();
 
   // find cart info
-  let quantity = cart.totalCount();
   let subTotal = await cart.totalPrice();
 
   // make cart to object to put the values in
-  cart = cart.toObject();
-  cart.items_in_cart = quantity;
+  cart = cart.toJSON();
   cart.subTotal = subTotal;
 
-  console.log(cart);
+  // send object
+  res.render("user/cart", { user: req.user, cart: cart });
+});
+
+router.get("/json", connLogin.ensureLoggedIn(), async (req, res) => {
+  // get cart and populate all values
+  let cart = await Cart.findOne({ user: req.user._id })
+    .populate("content.product")
+    .exec();
+
+  // find cart info
+  let subTotal = await cart.totalPrice();
+
+  // make cart to object to put the values in
+  cart = cart.toJSON();
+  cart.subTotal = subTotal;
 
   // send object
-  res.render("user/cart", { user: cart.user, cart: cart });
+  res.send(cart);
 });
 
 // add to cart method
@@ -34,7 +46,9 @@ router.post("/add/:id", connLogin.ensureLoggedIn(), async (req, res) => {
 
   let cart = await Cart.findOne({ user: user._id }).exec();
 
-  let opt = req.body.opts;
+  console.log(req.body);
+
+  let opt = req.body.opt;
 
   try {
     let item = await Item.findById(req.params.id);
@@ -55,6 +69,7 @@ router.get("/clear", connLogin.ensureLoggedIn(), async (req, res) => {
 
   // emtpy cart
   cart.content = [];
+  cart.cartCount = 0;
 
   // save to database
   await cart.save();

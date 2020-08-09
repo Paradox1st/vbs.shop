@@ -1,6 +1,9 @@
-<h1>User: {{ user.username }}</h1>
-<ul>
-  <li>First name: {{ user.f_name }}</li>
-  <li>Talents: {{ user.talents }} T</li>
-  <li>Is mod: {{ user.mod }}</li>
-</ul>
+<div class="card text-center mt-5 mx-auto" style="width: 18rem;">
+  <div class="card-body">
+    <h3 class="card-title">{{ user.f_name }}</h3>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Username: {{ user.username }}</li>
+      <li class="list-group-item">Talents: {{ user.talents }}</li>
+    </ul>
+  </div>
+</div>
