@@ -19,15 +19,13 @@ const connectDB = async () => {
 
     // create sample items
     const nintendoSwitch = new Item({
-      prod_name: "Nintendo Switch Lite",
-      prod_desc: "Not as powerful as the original Switch, but is good enough",
-      prod_opts: ["black", "white", "blue", "red"],
+      name: "Nintendo Switch Lite",
+      opts: ["black", "white", "blue", "red"],
       price: 1000,
     });
 
     const boringBook = new Item({
-      prod_name: "Boring Book",
-      prod_desc: "Rather boring book.",
+      name: "Boring Book",
       price: 10,
     });
 

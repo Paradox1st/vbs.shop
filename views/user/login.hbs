@@ -1,0 +1,43 @@
+<div class="d-flex flex-column align-items-center">
+  <h1 class="mt-2">Login</h1>
+  <form action="/auth/login" method="POST">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        placeholder="Username"
+      />
+    </div>
+
+    <div class="form-group">
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        placeholder="Password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Log In</button>
+  </form>
+
+  <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+    <span id="error-message"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const info = urlParams.get("info");
+
+  if (info) {
+    const errorMessage = document.getElementById("error-message");
+    errorMessage.innerText = info;
+    errorMessage.style.display = "block";
+  } else {
+    document.querySelector(".alert").style.display = "none";
+  }
+</script>

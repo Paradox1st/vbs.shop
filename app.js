@@ -2,7 +2,6 @@
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const exphbs = require("express-handlebars");
@@ -32,15 +31,15 @@ if (process.env.NODE_ENV === "development") {
 app.engine(
   ".hbs",
   exphbs({
-    defaultLayout: false,
+    defaultLayout: "main",
     extname: ".hbs",
   })
 );
 app.set("view engine", ".hbs");
 
 // sessions (also store in mongoDB)
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "setosiafjoei233ju029",
@@ -59,6 +58,7 @@ app.use(express.static(path.join(__dirname, "static")));
 
 // routes
 app.use("/", require("./routes/index"));
+app.use("/cart", require("./routes/cart"));
 app.use("/auth", require("./routes/auth"));
 
 // configure port

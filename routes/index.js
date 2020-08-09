@@ -1,20 +1,42 @@
 // import modules
 const express = require("express");
 const router = express.Router();
-const conEnLogin = require("connect-ensure-login");
+const connLogin = require("connect-ensure-login");
 const Item = require("../models/item");
+const Cart = require("../models/cart");
 
 // index page
 router.get("/", async (req, res) => {
-  // get items
-  items = await Item.find().lean();
-  console.log(items);
+  // load user
+  let user = req.user;
 
-  args = {};
-  if(req.user){
-    args.dispName = req.user.f_name;
+  if (user) {
+    // get user cart
+    let cart = await Cart.findOne({ user: user._id }).exec();
+    if (!cart) {
+      cart = new Cart({
+        user: user._id,
+      });
+      await cart.save();
+      console.log(`Saved cart: ${cart}`);
+    }
+
+    user.cart = cart.toJSON();
+    user.items_in_cart = cart.totalCount();
+    user = user.toJSON();
   }
-  args.items = items;
+  // spotlight items (most expensive 3)
+  let spotlight = await Item.find().sort({ price: "asc" }).lean();
+
+  // get items
+  let items = await Item.find().lean();
+
+  // build args
+  let args = {
+    spotlight: spotlight,
+    items: items,
+    user: user,
+  };
 
   // render index template
   res.render("index", args);
@@ -22,28 +44,15 @@ router.get("/", async (req, res) => {
 
 // login page
 router.get("/login", (req, res) => {
-  res.render("login");
+  res.render("user/login");
 });
 
-router.get("/logout", (req, res)=>{
-  res.redirect("/auth/logout");
-});
-
-router.get('/profile', conEnLogin.ensureLoggedIn(), async (req,res)=>{
+router.get("/profile", connLogin.ensureLoggedIn(), async (req, res) => {
   // get user
-  user = req.user;
+  let user = req.user.toJSON();
 
-  // fill args
-  args = {};
-  
-  if(user){
-    args.username = user.username;
-    args.f_name = user.f_name;
-    args.talents = user.talents;
-    args.mod = user.mod;
-  }
-
-  res.render("profile", args);
-})
+  res.render("user/profile", { user: user });
+  // res.redirect("back");   // use this for cart items
+});
 
 module.exports = router;
