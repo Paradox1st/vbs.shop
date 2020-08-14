@@ -2,13 +2,19 @@
 {{#each cart.content}}
 {{!-- content[this] --}}
 {{#with this.product}}
-<div class="card">
+<div class="card d-flex flex-row">
   <div class="card-image">
-    <img src="{{imgs.[0]}}" alt="{{imgs.[0]}}" />
+    <img class="cart-img" src="{{imgs.[0]}}" alt="{{imgs.[0]}}" />
   </div>
   <div class="card-body">
     <h4>{{ name }}</h4>
-    {{> _item_opts}}
+    <form action="/cart/update/{{ this._id }}" method="POST">
+      {{> _item_opts opt=../this.opt is_cart=(compare ../../title "Cart")}}
+      <select name="count" onchange="this.form.submit()">
+        <!-- todo: handlebars iterator -->
+      </select>
+      <!-- todo: update cart action -->
+    </form>
   </div>
 </div>
 {{/with}}

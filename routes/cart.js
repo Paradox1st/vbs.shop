@@ -19,7 +19,11 @@ router.get("/", connLogin.ensureLoggedIn(), async (req, res) => {
   cart.subTotal = subTotal;
 
   // send object
-  res.render("user/cart", { user: req.user, cart: cart });
+  res.render("user/cart", {
+    title: "Cart",
+    user: req.user.toJSON(),
+    cart: cart,
+  });
 });
 
 router.get("/json", connLogin.ensureLoggedIn(), async (req, res) => {
@@ -62,6 +66,10 @@ router.post("/add/:id", connLogin.ensureLoggedIn(), async (req, res) => {
     res.render("error/500");
   }
 });
+
+// todo: update cart item route
+
+// todo: submit order route
 
 router.get("/clear", connLogin.ensureLoggedIn(), async (req, res) => {
   // get cart

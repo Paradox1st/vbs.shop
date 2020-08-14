@@ -31,7 +31,7 @@ const connectDB = async () => {
         "static",
         "images",
         "Amazing Savings",
-        "2020 Talent Final.csv"
+        "Amazing Savings Talents.csv"
       )
     )
       .pipe(csv.parse({ headers: true }))
