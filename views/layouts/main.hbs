@@ -65,6 +65,7 @@
         const errorMessage = document.getElementById("error-message");
         errorMessage.innerText = info;
         errorMessage.style.display = "block";
+
         if (type === "error") {
           errorMessage.parentElement.classList.add("alert-danger");
         } else if (type === "success") {

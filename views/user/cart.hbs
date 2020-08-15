@@ -1,10 +1,10 @@
 <h1 class="mt-2">Cart</h1>
 {{#if cart.content}}
 <div class="row">
-  <div class="col col-8 card-column">
+  <div class="col col-md-8 card-column">
     {{#each cart.content}}
     {{#with this.product}}
-    <div class="card p-2 my-2 flex-row">
+    <div class="card p-2 mb-2 flex-row">
       <img
         class="card-img-top cart-img"
         src="{{imgs.[0]}}"
@@ -17,12 +17,23 @@
           {{> _item_opts opts=(numList 0 11) find=../this.count submit_on_change=true name="qty"}}
           {{> _item_opts opts=this.opts find=../this.opt submit_on_change=true name="opt"}}
         </form>
+        <h5 class="card-text mt-3">{{ this.price }} T</h5>
       </div>
     </div>
     {{/with}}
     {{/each}}
   </div>
-  <div class="col col-4"></div>
+  <div class="col col-md-4">
+    <div class="card bg-light">
+      <div class="card-header">
+        <h3>Summary</h3>
+      </div>
+      <div class="card-body">
+        <h4 class="card-text mb-3">Total: {{ cart.subTotal }}</h4>
+        <a href="/cart/order" class="btn btn-primary w-100">Submit Order</a>
+      </div>
+    </div>
+  </div>
 </div>
 {{else}}
 <h3 class="text-center mt-5">Your cart is empty</h3>

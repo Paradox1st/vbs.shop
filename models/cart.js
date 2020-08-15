@@ -110,9 +110,6 @@ CartSchema.methods.updateItem = async function (upItem) {
 CartSchema.methods.totalPrice = async function () {
   let totalPrice = 0;
 
-  // find all items
-  await this.populate("content.product");
-
   this.content.forEach((item) => {
     totalPrice += item.product.price * item.count;
   });
