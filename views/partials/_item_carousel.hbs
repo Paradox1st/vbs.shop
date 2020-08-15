@@ -1,0 +1,42 @@
+<!-- item carousel -->
+{{#if imgs.[1] }}
+<div id="item-{{item_index}}-carousel" class="carousel" data-ride="carousel">
+  <ol class="carousel-indicators">
+    {{#each imgs}}
+    <li
+      data-target="#item-{{../item_index}}-carousel"
+      data-slide-to="{{@index}}"
+      {{#if @first}}class="active"{{/if}}
+    ></li>
+    {{/each}}
+  </ol>
+  <div class="carousel-inner">
+    {{#each imgs}}
+    <div class="carousel-item {{#if @first}}active{{/if}}">
+      <img src="{{ this }}" alt="img" class="card-img-top d-block w-100" />
+    </div>
+    {{/each}}
+  </div>
+  <a
+    class="carousel-control-prev"
+    href="#item-{{item_index}}-carousel"
+    role="button"
+    data-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a
+    class="carousel-control-next"
+    href="#item-{{item_index}}-carousel"
+    role="button"
+    data-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<!-- /item carousel -->
+{{else}}
+<img src="{{ this.imgs.[0] }}" alt="img" class="card-img-top" />
+{{/if}}

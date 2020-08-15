@@ -1,6 +1,10 @@
 {{#if spotlight}}
-<div class="row my-3">
-  <div id="spotlightCarousel" class="col carousel slide" data-ride="carousel">
+<div class="row my-3 mx-0">
+  <div
+    id="spotlightCarousel"
+    class="col p-0 carousel slide"
+    data-ride="carousel"
+  >
     <ol class="carousel-indicators">
       <li
         data-target="#spotlightCarousel"
@@ -10,10 +14,10 @@
       <li data-target="#spotlightCarousel" data-slide-to="1"></li>
       <li data-target="#spotlightCarousel" data-slide-to="2"></li>
     </ol>
-    <div class="carousel-inner">
+    <div class="carousel-inner bg-dark text-light">
       {{#each spotlight}}
       <div class="carousel-item {{#if @first}}active{{/if}}">
-        <div class="row no-gutters bg-dark text-light">
+        <div class="row no-gutters mx-5 px-5">
           <div class="col-md-6 mb-md-0 p-md-4">
             <img src="{{ this.imgs.[0] }}" alt="First slide" />
           </div>
@@ -63,14 +67,14 @@
   {{#with this}}
   <div class="col mb-4">
     <div class="card h-100">
-      <img src="{{ this.imgs.[0] }}" alt="img" class="card-img-top" />
-      <div class="card-body text-center">
+      {{> _item_carousel imgs=imgs item_index=@index}}
+      <div class="card-body text-center d-flex flex-column">
         <h3 class="card-title">{{ name }}</h3>
         <h4 class="card-text">{{ price }} T</h4>
         <form
           action="/cart/add/{{ this._id }}"
           method="POST"
-          class="d-flex justify-content-around"
+          class="d-flex justify-content-around mt-auto"
         >
           {{> _item_opts name="opt"}}
           <button class="btn btn-danger" type="submit">Add to Cart</button>
