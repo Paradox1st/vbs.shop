@@ -5,14 +5,15 @@ const connLogin = require("connect-ensure-login");
 const paginate = require("express-paginate");
 const Item = require("../models/item");
 const Cart = require("../models/cart");
+const Order = require("../models/order");
 
 // index page
 router.get("/", async (req, res) => {
-  // load user
-  let user = req.user;
-  let cart = {};
-
   try {
+    // load user
+    let user = req.user;
+    let cart = {};
+
     if (user) {
       // get user cart
       cart = await Cart.findOne({ user: user._id }).exec();
@@ -63,8 +64,9 @@ router.get("/", async (req, res) => {
     };
 
     res.render("index", args);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
+    res.render("error/500");
   }
 });
 
@@ -74,13 +76,32 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/profile", connLogin.ensureLoggedIn(), async (req, res) => {
-  // get user cart
-  let cart = await Cart.findOne({ user: req.user._id }).lean();
-  // get user
-  let user = req.user.toJSON();
+  try {
+    // get user cart
+    let cart = await Cart.findOne({ user: req.user._id }).lean();
+    // get user
+    let user = req.user.toJSON();
 
-  res.render("user/profile", { user: user, cart: cart });
-  // res.redirect("back");   // use this for cart items
+    res.render("user/profile", { user: user, cart: cart });
+  } catch (err) {
+    console.error(err);
+    res.render("error/500");
+  }
+});
+
+router.get("/orders", connLogin.ensureLoggedIn(), async (req, res) => {
+  try {
+    // get user orders
+    let orders = await Order.find({ user: req.user._id })
+      .sort({ date: -1 })
+      .populate("products.product")
+      .lean();
+
+    res.render("user/orders", { user: req.user.toJSON(), orders });
+  } catch (err) {
+    console.error(err);
+    res.render("error/500");
+  }
 });
 
 module.exports = router;

@@ -117,8 +117,6 @@ router.get("/order", connLogin.ensureLoggedIn(), async (req, res) => {
         total: orderPrice,
       });
 
-      console.log(order);
-
       await order.save();
 
       user.talents -= orderPrice;

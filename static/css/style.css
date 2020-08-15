@@ -1,3 +1,10 @@
+select {
+  width: 100px;
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
+}
+
 img {
   object-fit: contain;
 }

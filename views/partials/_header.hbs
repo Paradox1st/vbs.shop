@@ -31,10 +31,15 @@
         >
           {{ user.f_name }}
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div
+          class="dropdown-menu dropdown-menu-right text-right"
+          aria-labelledby="navbarDropdown"
+        >
           <a class="dropdown-item" href="/profile">Profile</a>
-          <a class="dropdown-item" href="#">My Orders</a>
+          <a class="dropdown-item" href="/orders">My Orders</a>
+          {{#if user.mod}}
           <a class="dropdown-item" href="/mod">Mod Menu</a>
+          {{/if}}
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="/auth/logout">Log Out</a>
         </div>

@@ -1,0 +1,56 @@
+<h2 class="m-3">My Orders</h2>
+{{#if orders}}
+<div id="accordion">
+  {{#each orders as |order|}}
+  <div class="card">
+    <div class="card-header" id="heading{{@index}}">
+      <h5 class="mb-0">
+        <button
+          class="btn btn-link w-100 d-flex"
+          data-toggle="collapse"
+          data-target="#collapse{{@index}}"
+          aria-expanded="true"
+          aria-controls="collapse{{@index}}"
+        >
+          <span class="px-3 mr-auto">{{formatDate order.date "LLL"}}</span>
+          {{#if order.user.f_name}}User: {{ order.user.f_name }} |
+          {{/if}} Total: {{ order.total }} T
+        </button>
+      </h5>
+    </div>
+
+    <div
+      id="collapse{{@index}}"
+      class="collapse"
+      aria-labelledby="heading{{@index}}"
+      data-parent="#accordion"
+    >
+      <div class="card-body px-3 py-0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Option</th>
+              <th scope="col">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this.products as |item|}}
+            <tr>
+              <th scope="row">{{ item.product.name }}</th>
+              <td>{{ item.product.price }}</td>
+              <td>{{#if item.opt}}{{ item.opt }}{{else}}N/A{{/if}}</td>
+              <td>{{ item.count }}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+{{else}}
+<h3 class="text-center">No orders here</h3>
+{{/if}}

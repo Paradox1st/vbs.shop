@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,7 +22,7 @@
     <title>{{ title }}</title>
   </head>
 
-  <body>
+  <body class="d-flex flex-column h-100">
     {{> _header}}
     <div class="container">
       <div class="alert alert-dismissible fade show my-3" role="alert">
@@ -38,6 +38,7 @@
       </div>
       {{{body}}}
     </div>
+    {{> _footer}}
 
     <!-- boot strap scripts -->
     <script
