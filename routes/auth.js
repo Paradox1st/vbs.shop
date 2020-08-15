@@ -17,7 +17,7 @@ router.post("/login", (req, res, next) => {
 
     // no user found
     if (!user) {
-      return res.redirect("/login?info=" + info.message);
+      return res.redirect("/login?info=" + info.message + "&infoType=error");
     }
 
     // login user

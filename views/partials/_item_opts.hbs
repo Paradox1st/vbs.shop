@@ -1,7 +1,7 @@
 {{#if opts}}
-<select name="opt" {{#if is_cart}}onchange=this.form.submit(){{/if}}>
+<select name={{name}} {{#if submit_on_change}}onchange=this.form.submit(){{/if}}>
   {{#each opts}}
-  <option value="{{this}}" {{#if (compare ../opt this)}}selected{{/if}}>{{this}}</option>
+  <option value="{{this}}" {{#if (compare ../find this)}}selected{{/if}}>{{this}}</option>
   {{/each}}
 </select>
 {{/if}}

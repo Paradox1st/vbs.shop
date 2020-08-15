@@ -1,24 +1,29 @@
+<h1 class="mt-2">Cart</h1>
 {{#if cart.content}}
-{{#each cart.content}}
-{{!-- content[this] --}}
-{{#with this.product}}
-<div class="card d-flex flex-row">
-  <div class="card-image">
-    <img class="cart-img" src="{{imgs.[0]}}" alt="{{imgs.[0]}}" />
+<div class="row">
+  <div class="col col-8 card-column">
+    {{#each cart.content}}
+    {{#with this.product}}
+    <div class="card p-2 my-2 flex-row">
+      <img
+        class="card-img-top cart-img"
+        src="{{imgs.[0]}}"
+        alt="{{imgs.[0]}}"
+      />
+      <div class="card-body">
+        <h4 class="card-title">{{ name }}</h4>
+        <form action="/cart/update" method="POST">
+          <input type="hidden" name="_id" value="{{ ../this._id }}" />
+          {{> _item_opts opts=(numList 0 11) find=../this.count submit_on_change=true name="qty"}}
+          {{> _item_opts opts=this.opts find=../this.opt submit_on_change=true name="opt"}}
+        </form>
+      </div>
+    </div>
+    {{/with}}
+    {{/each}}
   </div>
-  <div class="card-body">
-    <h4>{{ name }}</h4>
-    <form action="/cart/update/{{ this._id }}" method="POST">
-      {{> _item_opts opt=../this.opt is_cart=(compare ../../title "Cart")}}
-      <select name="count" onchange="this.form.submit()">
-        <!-- todo: handlebars iterator -->
-      </select>
-      <!-- todo: update cart action -->
-    </form>
-  </div>
+  <div class="col col-4"></div>
 </div>
-{{/with}}
-{{/each}}
 {{else}}
 <h3 class="text-center mt-5">Your cart is empty</h3>
 {{/if}}

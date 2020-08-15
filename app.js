@@ -39,8 +39,8 @@ let hbs = exphbs.create({
 app.engine(".hbs", hbs.engine);
 app.set("view engine", ".hbs");
 // load helper functions
-const { compare } = require("./middleware/handlebars");
-hbs.handlebars.registerHelper("compare", compare);
+const { compare, numList } = require("./middleware/handlebars");
+hbs.handlebars.registerHelper({ compare, numList });
 
 // sessions (also store in mongoDB)
 app.use(express.json());

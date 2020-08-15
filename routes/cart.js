@@ -48,19 +48,16 @@ router.post("/add/:id", connLogin.ensureLoggedIn(), async (req, res) => {
   // get user
   let user = req.user;
 
-  let cart = await Cart.findOne({ user: user._id }).exec();
-
-  console.log(req.body);
-
   let opt = req.body.opt;
 
   try {
+    let cart = await Cart.findOne({ user: user._id }).exec();
     let item = await Item.findById(req.params.id);
 
     // add item to cart
-    await cart.addItem(item, opt);
+    let { info, infoType } = await cart.addItem(item, opt);
 
-    res.redirect("back"); // use this for cart items
+    res.redirect("/?info=" + info + "&infoType=" + infoType); // use this for cart items
   } catch (err) {
     console.error(err);
     res.render("error/500");
@@ -68,6 +65,22 @@ router.post("/add/:id", connLogin.ensureLoggedIn(), async (req, res) => {
 });
 
 // todo: update cart item route
+router.post("/update", connLogin.ensureLoggedIn(), async (req, res) => {
+  // get user
+  let user = req.user;
+
+  try {
+    let cart = await Cart.findOne({ user: user._id }).exec();
+
+    // update item in cart
+    let { info, infoType } = await cart.updateItem(req.body);
+
+    res.redirect("/cart?info=" + info + "&infoType=" + infoType); // use this for cart items
+  } catch (err) {
+    console.error(err);
+    res.render("error/500");
+  }
+});
 
 // todo: submit order route
 

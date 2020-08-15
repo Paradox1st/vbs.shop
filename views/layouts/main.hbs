@@ -24,7 +24,20 @@
 
   <body>
     {{> _header}}
-    <div class="container">{{{body}}}</div>
+    <div class="container">
+      <div class="alert alert-dismissible fade show my-3" role="alert">
+        <span id="error-message"></span>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {{{body}}}
+    </div>
 
     <!-- boot strap scripts -->
     <script
@@ -42,8 +55,26 @@
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"
     ></script>
+    <!-- custom script (alerts) -->
     <script>
-      document.querySelector(".carousel-item").classList.add("active");
+      const urlParams = new URLSearchParams(window.location.search);
+      const info = urlParams.get("info");
+      const type = urlParams.get("infoType");
+
+      if (info) {
+        const errorMessage = document.getElementById("error-message");
+        errorMessage.innerText = info;
+        errorMessage.style.display = "block";
+        if (type === "error") {
+          errorMessage.parentElement.classList.add("alert-danger");
+        } else if (type === "success") {
+          errorMessage.parentElement.classList.add("alert-success");
+        } else {
+          errorMessage.parentElement.classList.add("alert-primary");
+        }
+      } else {
+        document.querySelector(".alert").style.display = "none";
+      }
     </script>
   </body>
 </html>

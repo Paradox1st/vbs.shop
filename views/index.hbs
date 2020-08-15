@@ -12,14 +12,10 @@
     </ol>
     <div class="carousel-inner">
       {{#each spotlight}}
-      <div class="carousel-item">
+      <div class="carousel-item {{#if @first}}active{{/if}}">
         <div class="row no-gutters bg-dark text-light">
           <div class="col-md-6 mb-md-0 p-md-4">
-            <img
-              class="d-block w-100"
-              src="{{ this.imgs.[0] }}"
-              alt="First slide"
-            />
+            <img src="{{ this.imgs.[0] }}" alt="First slide" />
           </div>
           <div class="container col-md-6 position-static p-4 pl-md-0">
             <h3 class="mt-0">{{ this.name }}</h3>
@@ -30,7 +26,7 @@
               class="d-flex justify-content-around"
             >
               {{#with this}}
-              {{> _item_opts}}
+              {{> _item_opts name="opt"}}
               {{/with}}
               <button class="btn btn-danger" type="submit">Add to Cart</button>
             </form>
@@ -76,7 +72,7 @@
           method="POST"
           class="d-flex justify-content-around"
         >
-          {{> _item_opts}}
+          {{> _item_opts name="opt"}}
           <button class="btn btn-danger" type="submit">Add to Cart</button>
         </form>
       </div>
@@ -86,7 +82,7 @@
   {{/each}}
 </div>
 {{#with pagination}}
-<div class="row">
+<div class="row justify-content-center">
   {{#if pages}}
   <ul class="pagination">
     <li class="page-item {{#if disablePrev}}disabled{{/if}}">
