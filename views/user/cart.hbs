@@ -1,21 +1,20 @@
 <h1 class="mt-2">Cart</h1>
 {{#if cart.content}}
 <div class="row">
-  <div class="col col-md-8 card-column">
+  <div class="col col-md-9 card-column">
     {{#each cart.content}}
     {{#with this.product}}
     <div class="card p-2 mb-2 flex-row">
-      <img
-        class="card-img-top cart-img"
-        src="{{imgs.[0]}}"
-        alt="{{imgs.[0]}}"
-      />
+      {{> _item_carousel imgs=imgs item_index=@index cart=true }}
       <div class="card-body">
         <h4 class="card-title">{{ name }}</h4>
         <form action="/cart/update" method="POST">
           <input type="hidden" name="_id" value="{{ ../this._id }}" />
           {{> _item_opts opts=(numList 0 11) find=../this.count submit_on_change=true name="qty"}}
           {{> _item_opts opts=this.opts find=../this.opt submit_on_change=true name="opt"}}
+          <a href="/cart/remove/{{../this._id}}" class="btn btn-danger"
+            >Remove Item</a
+          >
         </form>
         <h5 class="card-text mt-3">{{ this.price }} T</h5>
       </div>
@@ -23,7 +22,7 @@
     {{/with}}
     {{/each}}
   </div>
-  <div class="col col-md-4">
+  <div class="col col-md-3">
     <div class="card bg-light">
       <div class="card-header">
         <h3>Summary</h3>

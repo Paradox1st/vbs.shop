@@ -80,12 +80,35 @@ router.post("/update", connLogin.ensureLoggedIn(), async (req, res) => {
     // get user
     let user = req.user;
 
+    console.log(req.param);
+    console.log(req.params);
+
     let cart = await Cart.findOne({ user: user._id }).exec();
 
     // update item in cart
     let { info, infoType } = await cart.updateItem(req.body);
 
     res.redirect("/cart?info=" + info + "&infoType=" + infoType); // use this for cart items
+  } catch (err) {
+    console.error(err);
+    res.render("error/500", { user: req.user.toJSON() });
+  }
+});
+
+// todo: update cart item route
+router.get("/remove/:id", connLogin.ensureLoggedIn(), async (req, res) => {
+  try {
+    let cart = await Cart.findOne({ user: req.user._id }).exec();
+
+    let entry = cart.content.filter((item) => item._id == req.params.id);
+
+    cart.content.splice(cart.content.indexOf(entry), 1);
+
+    await cart.countItems();
+
+    await cart.save();
+
+    res.redirect("/cart?info=Item removed successfully&infoType=success");
   } catch (err) {
     console.error(err);
     res.render("error/500", { user: req.user.toJSON() });

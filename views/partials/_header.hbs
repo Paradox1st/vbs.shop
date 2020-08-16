@@ -15,7 +15,7 @@
     class="collapse navbar-collapse d-flex justify-content-end"
     id="navbarText"
   >
-    <span class="navbar-text"> {{ user.talents }} T </span>
+    {{#if user}}<span class="navbar-text"> {{ user.talents }} T </span>{{/if}}
     <div class="divider"></div>
     <ul class="navbar-nav">
       {{#if user}}

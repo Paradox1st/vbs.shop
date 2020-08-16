@@ -13,7 +13,7 @@
   <div class="carousel-inner">
     {{#each imgs}}
     <div class="carousel-item {{#if @first}}active{{/if}}">
-      <img src="{{ this }}" alt="img" class="card-img-top d-block w-100" />
+      <img src="{{ this }}" alt="img" class="card-img-top d-block w-100 {{#if ../cart}}cart-img{{/if}}" />
     </div>
     {{/each}}
   </div>
@@ -38,5 +38,5 @@
 </div>
 <!-- /item carousel -->
 {{else}}
-<img src="{{ this.imgs.[0] }}" alt="img" class="card-img-top" />
+<img src="{{ this.imgs.[0] }}" alt="img" class="card-img-top {{#if cart}}cart-img{{/if}}" />
 {{/if}}
