@@ -11,7 +11,7 @@ const numList = function (from, to) {
 };
 
 const formatDate = function (date, format) {
-  return moment(date).utc().format(format);
+  return moment(date).local().format(format);
 };
 
 module.exports = { compare, numList, formatDate };

@@ -11,13 +11,13 @@
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div
-    class="collapse navbar-collapse d-flex justify-content-end"
-    id="navbarText"
-  >
-    {{#if user}}<span class="navbar-text"> {{ user.talents }} T </span>{{/if}}
-    <div class="divider"></div>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarText">
     <ul class="navbar-nav">
+      {{#if user}}
+      <li class="nav-item">
+        <span class="navbar-text"> {{ user.talents }} T </span>
+      </li>
+      {{/if}}
       {{#if user}}
       <li class="nav-item dropdown">
         <a
